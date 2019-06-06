@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 
 class GoogleMap extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class GoogleMap extends Component {
       this.props.options);  
       this.props.crimeLocations.forEach(crimeLocation => {
         if (!crimeLocation.hidden){ 
-        const marker = new window.google.maps.Marker({
+        new window.google.maps.Marker({
           position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
           map: this.map
         });}

@@ -29,9 +29,10 @@ const [crimeLocations, setCrimeLocations] = useState([]);
 const [mapMode, setMapMode] = useState('');
 const [crimeCentre, setCrimeCentre] = useState({lat: 52.397, lng: 0.4196});
 
-const url = `https://data.police.uk/api/crimes-street/all-crime?poly=${crimeCentre.lat + 0.005},${crimeCentre.lng -0.005}:${crimeCentre.lat -0.005 },${crimeCentre.lng +0.005}:${crimeCentre.lat + 0.01},${crimeCentre.lng +0.01}`
 
 useEffect(()=> {
+  const url = `https://data.police.uk/api/crimes-street/all-crime?poly=${crimeCentre.lat + 0.005},${crimeCentre.lng -0.005}:${crimeCentre.lat -0.005 },${crimeCentre.lng +0.005}:${crimeCentre.lat + 0.01},${crimeCentre.lng +0.01}`
+
   fetch(url)
   .then(res => res.json())
   .then(crimes => {
@@ -39,6 +40,7 @@ useEffect(()=> {
     const crimeCoordinates = crimes.map(crime => {return {'id':uuidv4(),'location': crime.location, 'category': crime.category, 'month': crime.month, 'outcome':crime.outcome_status, 'persisted': true, 'hidden':false, 'toAdd':false}});
     setCrimeLocations(crimeLocations => crimeCoordinates);
    });
+
 },[crimeCentre]);
 
 const onMapClick = (e) => {
