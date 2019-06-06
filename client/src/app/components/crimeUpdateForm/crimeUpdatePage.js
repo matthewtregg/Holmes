@@ -1,27 +1,68 @@
-// // crime update idea
+// crime update idea
 
-// import React, {useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
+import { MapContext } from '../../containers';
+export const CrimeUpdateForm = ({crimeLocations}) => {
 
-// export const CrimeUpdateForm = () => {
+const [category, setCategory] = useState({});
+const [location, setlocation] = useState({})
+const [outcome, setOutcome]  = useState({})  
+  
+  //month 
+const {saveCrime} = useContext(MapContext);
+let categoryChangeFunctions = {}; 
+let locationChangeFunctions = {};
+let outcomeChangeFunctions = {};
+let saveCrimeFunctions = {};
 
-// //category 
-// //location 
-// //lat and lon 
-// //month
-// //outcome_status 
+crimeLocations.forEach((crimeLocation) => {
+  
+const categoryChange = (event) => {
+  const e = event.target.value;
+  setCategory(category => ({...category,[crimeLocation.id]:e}));
+};         
 
-// // include a map 
+const locationChange = (event) => {
+  const e = event.target.value;
+  setlocation(location => ({...location,[crimeLocation.id]:e}));
+};
+
+const outcomeChange = (event) => {
+  const e = event.target.value;
+  setOutcome(outcome => ({...outcome,[crimeLocation.id]:e}));
+};
+
+const saveCrime = (e) => {
+  e.preventDefault();
+   
+}
+
+categoryChangeFunctions = {...categoryChangeFunctions, [crimeLocation.id]:categoryChange}
+locationChangeFunctions = {...locationChangeFunctions, [crimeLocation.id]:locationChange} 
+outcomeChangeFunctions = {...outcomeChangeFunctions,[crimeLocation.id]:outcomeChange}
+saveCrimeFunctions = {...saveCrimeFunctions, [crimeLocation.id]: saveCrime}
+});
 
 
 
-// return (
+const crimesToAdd = crimeLocations.map((crimeLocation)=>{
+  if(crimeLocation.toAdd) {
+    console.log(crimeLocation)
+  return <form onSubmit={saveCrime[crimeLocation.id]} key={crimeLocation.id}>
+      <input type='text' value={category[crimeLocation.id]} onChange={categoryChangeFunctions[crimeLocation.id]} />
+      <input type='text' value={location[crimeLocation.id]} onChange={locationChangeFunctions[crimeLocation.id]} />
+      <input type='text' value={outcome[crimeLocation.id]} onChange={outcomeChangeFunctions[crimeLocation.id]}/> 
+      <input type='submit' value='add crime' />
+  </form>; 
+  } else {
+    return null
+  }
+  });
 
-//   // <form onSubmit={handleSubmit}>
-//   //     <input type='text' value={title} onChange={handleTitleChange} />
-//   //     <input type='text' value={venue} onChange={handleVenueChange} />
-//   //     <input type='date' value={date} onChange={handleDateChange} />
-//   //     <input type='submit' value='add crime' />
+return (
 
-//   //   </form> 
-// )
-// }  
+  <div>
+    {crimesToAdd}
+  </div>
+);
+}  

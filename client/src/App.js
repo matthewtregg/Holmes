@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 import {LandingPage} from './app/components/landingPage/landingPage';
 import { MapView } from './app/containers/MapViewContainer/MapViewContainer';
 
 //react-router
-
+// conditional tr
 
 function App() {
   return (
@@ -13,18 +13,10 @@ function App() {
         <Router>
         <div>
         <Route exact path='/' component={LandingPage}/>     
-
-          <Switch>
-              <Route exact path='/map' component={MapView} />
-              {/* <Route exact path='/map' component={MapView} /> */}
-              {/* <Route exact path='/stats' component={Contact} /> */}
-              {/* <Route exact path='/add' component={} */}
-          </Switch>
+        <Route exact path='/map' component={MapView} />
+        {/* <Route exact path='/stats' component={} /> */}
         </div>
       </Router>
-
-  
-    {/* <MapView/>  */}
   </div>
   );
 }
