@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Config from '../../config/config'
 
 class GoogleMap extends Component {
   constructor(props) {
@@ -14,28 +15,24 @@ class GoogleMap extends Component {
     
     window.google.maps.event.addListener(this.map, 'click', (e)=> {
        const event = e; 
-       console.log(event);
+       this.props.onMapClick(event);
+
     }); 
+
+    this.props.crimeLocations.forEach(crimeLocation => {
+      if (!crimeLocation.hidden){ 
+      new window.google.maps.Marker({
+        position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
+        map: this.map
+      });
+      
+    }
+    })
+    
   }
-
-  componentDidUpdate(){
+  componentDidUpdate() {
     if (this.props.mapMode!=='add'){
-    this.map = new window.google.maps.Map(
-      document.getElementById(this.props.id),
-      this.props.options);  
-      this.props.crimeLocations.forEach(crimeLocation => {
-        if (!crimeLocation.hidden){ 
-        new window.google.maps.Marker({
-          position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
-          map: this.map
-        });}
-      }) 
-
-      window.google.maps.event.addListener(this.map, 'click', (e)=> {
-        const event = e; 
-        console.log(event);
-        this.props.onMapClick(event);
-      });  
+      this.onScriptLoad();
     } else {
       return false;
     }
@@ -46,11 +43,9 @@ class GoogleMap extends Component {
     if (!window.google) {
       const s = document.createElement('script');
       s.type = 'text/javascript';
-      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyBRgCQikRzUSKgQrMjYvylRHH-vWxfKLIg`;
+      s.src = `https://maps.google.com/maps/api/js?key=${Config.googleAPIKEY}`;
       const x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
-      // Below is important. 
-      //We cannot access google.maps until it's finished loading
       s.addEventListener('load', e => {
         this.onScriptLoad()
       })
@@ -71,7 +66,7 @@ class GoogleMap extends Component {
     })
 
   return (
-     <div style={{ width: 1300, height: 500 }} id={this.props.id} />
+     <div style={{ widgth: 1300, height: 500 }} id={this.props.id} />
      );
 }
 

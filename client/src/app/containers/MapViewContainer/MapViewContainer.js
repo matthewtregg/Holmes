@@ -1,82 +1,72 @@
 // get API data from police
-import Geocode from "react-geocode";
 import React, {useEffect, useState} from "react";
-import {CrimeMap,CrimeList, CrimeSearchBar} from "../../components";
-import { CrimeUpdateForm } from "../../components/crimeUpdateForm/crimeUpdatePage";
+import {GoogleMap,CrimeList, CrimeSearchBar} from "../../components";
+import PoliceAPI from "../../services/PoliceAPI";
+import GeocodeAPI from "../../services/GeocodeAPI";
+import { CrimeUpdateForm } from "../../components/crimeUpdateForm/crimeUpdatePage/crimeUpdatePage";
 const uuidv4 = require('uuid/v4');
 export const MapContext = React.createContext(null)
 
 export const  MapView = () => {
-
-const searchByAddress =(address) => {
-  Geocode.setApiKey("AIzaSyBRgCQikRzUSKgQrMjYvylRHH-vWxfKLIg");
-  Geocode.fromAddress(address).then(
-    response => {
-      if (response) {
-      const { lat, lng } = response.results[0].geometry.location;
-      setCrimeCentre({lat, lng}); 
-      console.log(lat, lng);
-      } 
-    },
-    error => {
-      console.error(error);
-    }
-  );
-  }
-
 const [crimeLocations, setCrimeLocations] = useState([]);
-// locations to save locally on my own storage
 const [mapMode, setMapMode] = useState('');
-const [crimeCentre, setCrimeCentre] = useState({lat: 52.397, lng: 0.4196});
+const [crimeCentre, setCrimeCentre] = useState({lat: 52.397, lng: 0.4196});  
 
 
 useEffect(()=> {
-  const url = `https://data.police.uk/api/crimes-street/all-crime?poly=${crimeCentre.lat + 0.005},${crimeCentre.lng -0.005}:${crimeCentre.lat -0.005 },${crimeCentre.lng +0.005}:${crimeCentre.lat + 0.01},${crimeCentre.lng +0.01}`
-
-  fetch(url)
-  .then(res => res.json())
+  // get Police data based on Polygon coordinates
+  PoliceAPI.getCrimes(crimeCentre)
   .then(crimes => {
-    console.log(crimes)
     const crimeCoordinates = crimes.map(crime => {return {'id':uuidv4(),'location': crime.location, 'category': crime.category, 'month': crime.month, 'outcome':crime.outcome_status, 'persisted': true, 'hidden':false, 'toAdd':false}});
-    setCrimeLocations(crimeLocations => crimeCoordinates);
-   });
-
+    setCrimeLocations(crimeCoordinates);
+  });
 },[crimeCentre]);
-
+//geocoding API to turn address into lng lat.
+const searchByAddress = (address) => {
+  GeocodeAPI.getCoordinates(address).then(({lat,lng}) => setCrimeCentre({lat,lng}));
+}
+//addCrimeTomap
 const onMapClick = (e) => {
   if (mapMode === "add") { 
     const newCrime = {'id': uuidv4(), 'location':{ 'latitude': e.latLng.lat(), 'longitude': e.latLng.lng()}, 'toAdd':true } 
     setCrimeLocations(crimeLocations => [...crimeLocations,newCrime]);
   }
 };
-
+//changeMapmode
 const setAddMode = () => {
-  setMapMode(mapMode =>"add")
+  const newMode = mapMode === 'add' ? '': 'add';
+  setMapMode(newMode);
 }
 
-const viewCrime = (id) => {
-  const newCrimeLocations = crimeLocations.map(crimeLocation => {
-    if (crimeLocation.id !== id) crimeLocation.hidden = true;
+//toggle whether a crime record is viewed
+const toggleCrime = (id, hidden) => {
+  const newCrimeLocations = crimeLocations
+    .map(crimeLocation => {
+    if (crimeLocation.id === id) crimeLocation.hidden = hidden;
     return crimeLocation})
-  setCrimeLocations(crimeLocations => newCrimeLocations);
+    setCrimeLocations(newCrimeLocations);
 } 
 
-let BottomOfScreen = {}; 
-mapMode === "add"? BottomOfScreen = <CrimeUpdateForm crimeLocations={crimeLocations}/> : BottomOfScreen = <CrimeList crimeLocations={crimeLocations}/>
+const BottomOfScreen = mapMode === "add"? <CrimeUpdateForm crimeLocations={crimeLocations}/> : <CrimeList crimeLocations={crimeLocations}/>
 return (
   <MapContext.Provider value={{
-     onMapClick,
-     searchByAddress,
-     crimeCentre,
-     setAddMode,
-     viewCrime
+     toggleCrime
   }}>
-  <CrimeSearchBar/>
-  <CrimeMap crimeLocations={crimeLocations} />
+  <CrimeSearchBar setAddMode={setAddMode}  searchByAddress={searchByAddress} mapMode={mapMode}/>
+  <GoogleMap
+        id="myMap"
+        options={{
+          center: crimeCentre,
+          zoom: 12
+        }}
+        crimeLocations = {crimeLocations}
+        crimeCentre = {crimeCentre}
+        mapMode = {mapMode}
+        onMapClick = {onMapClick}
+      />
   {BottomOfScreen} 
   </MapContext.Provider> 
 )
-
 
 };
 

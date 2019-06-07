@@ -1,10 +1,8 @@
-import React, { useState, useContext} from 'react';
-import {MapContext} from '../../containers';
+import React, { useState} from 'react';
 
-export const CrimeSearchBar = () => {
+export const CrimeSearchBar = ({searchByAddress, setAddMode, mapMode }) => {
 //const [date, setDate] = useState('');
 const [locationText, setLocationText] = useState('');
-const {searchByAddress, setAddMode} = useContext(MapContext);
 
 const handleLocationChange = (event) => {
   const e = event.target.value;
@@ -15,6 +13,7 @@ const handleSubmit = (e) => {
   e.preventDefault();
   searchByAddress(locationText);
 }
+const buttonModeText = mapMode === 'add' ? 'search for crimes' : 'add crimes'; 
 
 return (
    <div>
@@ -23,7 +22,7 @@ return (
   {/* <input type='date' value={date} onChange={handleDateChange} /> */}
   <input type='submit' value='find crime location' />
 </form> 
-  <button onClick={setAddMode}> add new crimes </button>
+    <button onClick={setAddMode}> {buttonModeText} </button>
   </div>
 )
 

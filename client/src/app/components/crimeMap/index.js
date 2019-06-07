@@ -1,2 +1,2 @@
-import {CrimeMap} from './Map.js';
-export {CrimeMap};
+import GoogleMap from './googleMap.js';
+export { GoogleMap};
