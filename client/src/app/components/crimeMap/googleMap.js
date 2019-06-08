@@ -25,10 +25,9 @@ class GoogleMap extends Component {
     //   imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     // });
     this.props.crimeLocations.forEach(crimeLocation => {
-      console.log(crimeLocation.category)
       const image = this.getMarkerIcon(crimeLocation.category);
       if (!crimeLocation.hidden){ 
-      const marker = new window.google.maps.Marker({
+      new window.google.maps.Marker({
         position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
         map: this.map,
         icon: {url: image}

@@ -5,7 +5,7 @@ import { CrimeUpdateForm } from "../../components/crimeUpdateForm/crimeUpdatePag
 const uuidv4 = require('uuid/v4');
 export const AddContext = React.createContext(null);
 export const AddView = () => { 
-const [addCrimeCentre, setAddCrimeCentre] = useState({lat: 52.397, lng: 0.4196});
+const [addCrimeCentre] = useState({lat: 52.397, lng: 0.4196});
 const [addCrimeLocations, setAddCrimeLocations]= useState([]);
 const onMapClick = (e) => {
       const newCrime = {'id': uuidv4(), 'location':{ 'latitude': e.latLng.lat(), 'longitude': e.latLng.lng()}, 'toAdd':true } 
