@@ -1,0 +1,53 @@
+.IndCrime {
+position: relative;
+justify-content: center;
+height: 500px;
+font-size: 14px;
+margin-left: 10px;
+border: solid;
+background-color: white;
+}
+
+.crimeId {
+position: relative;
+align-self: flex-start;
+width:140px;
+height:80px;
+}
+
+.crimeMonth {
+position: relative;
+align-self: flex-start;
+width:140px;
+height:80px;
+}
+
+
+.crimeCategory {
+position: relative;
+font-size: 12px;
+align-self: flex-start;
+width:140px;
+height:80px;
+overflow: auto;
+}
+
+.crimeOutcome {
+position: sticky; 
+font-size: 8px;
+width: 140px;
+height: 80px;
+overflow: auto;
+align-self: flex-end;
+}
+
+.crimeCheckbox {
+position: sticky; 
+width:140px;
+align-self: flex-end;
+top:80%;
+font-size: 8px;
+
+}
+    
+  

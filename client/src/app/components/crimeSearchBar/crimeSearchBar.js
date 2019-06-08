@@ -1,12 +1,12 @@
 import React, { useState} from 'react';
 
-export const CrimeSearchBar = ({searchByAddress, setAddMode, mapMode }) => {
+export const CrimeSearchBar = ({searchByAddress, setAddMode, mapMode, setRadius }) => {
 //const [date, setDate] = useState('');
 const [locationText, setLocationText] = useState('');
 
 const handleLocationChange = (event) => {
   const e = event.target.value;
-  setLocationText(locationText=> e)
+  setLocationText(e)
 }
 
 const handleSubmit = (e) => {
@@ -14,6 +14,7 @@ const handleSubmit = (e) => {
   searchByAddress(locationText);
 }
 const buttonModeText = mapMode === 'add' ? 'search for crimes' : 'add crimes'; 
+
 
 return (
    <div>
@@ -23,8 +24,34 @@ return (
   <input type='submit' value='find crime location' />
 </form> 
     <button onClick={setAddMode}> {buttonModeText} </button>
+    <select>
+     <option value="all_crime">All Crime</option>
+     <option value="anti-social-behaviour">Anti-social behaviour </option>
+     <option value="bicycle_theft">Bicycle theft</option>
+     <option value="burglary">Burglary</option>
+     <option value="criminal-damage-arson">Arson</option>
+     <option value="public-order">public order</option>
+     <option value="robbery">robbery</option>
+     <option value="drugs">Drugs</option>  
+     <option value="general_theft">General theft</option>
+     <option value="arms_posession">Arms possession</option>
+     <option value="other_crime">Other crime</option>
+     <option value="violent_crime">Violent crime</option>
+     <option value="vehicle_crime">Vehicle crime</option>
+    </select>
+    <select  onChange={setRadius} >
+     <option value="0.005">0.005</option>
+     <option value="0.01">0.01</option>
+     <option value="0.015">0.015</option>
+     <option value="0.02">0.02</option>
+     <option value="0.025">0.025</option>
+     <option value="0.03">0.03</option>  
+    </select>
   </div>
 )
 
 }
+
+
+
 

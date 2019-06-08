@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Config from '../../config/config'
-
 class GoogleMap extends Component {
   constructor(props) {
     super(props);
     this.onScriptLoad = this.onScriptLoad.bind(this)
     this.map = {};
+
+   
   }
   
   onScriptLoad() {
@@ -19,17 +20,61 @@ class GoogleMap extends Component {
 
     }); 
 
+    console.log(window)
+    // const clusterer = new window.google.MarkerClusterer(this.map, [], {
+    //   imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+    // });
     this.props.crimeLocations.forEach(crimeLocation => {
+      console.log(crimeLocation.category)
+      const image = this.getMarkerIcon(crimeLocation.category);
       if (!crimeLocation.hidden){ 
-      new window.google.maps.Marker({
+      const marker = new window.google.maps.Marker({
         position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
-        map: this.map
+        map: this.map,
+        icon: {url: image}
       });
+      // clusterer.addMarker(marker);
+    }
+    
+    })
+
+    
+
+    
+    const polygonCoords = [{ lat:this.props.crimeCentre.lat + this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng - this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat - this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng + this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat + (2*this.props.crimeCentre.rad) ,lng:this.props.crimeCentre.lng + (2*this.props.crimeCentre.rad)}]
+    const Polygon = new window.google.maps.Polygon({
+      paths: polygonCoords,
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35
+    });
+    Polygon.setMap(this.map);
+     
+  }
+  
+  getMarkerIcon(category) {
+    switch(category) {
+      case "criminal-damage-arson":
+      return "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+      case "violent-crime":
+      return "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
+      case "vehicle-crime":
+      return "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+      case "public-order":
+      return "http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png";
+      case "bicycle-theft":
+      return "http://maps.google.com/mapfiles/ms/icons/cycling.png";
+      case "drugs":
+      return "http://maps.google.com/mapfiles/ms/icons/cycling.png";
+      default:
+      return "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
       
     }
-    })
-    
   }
+
+
   componentDidUpdate() {
     if (this.props.mapMode!=='add'){
       this.onScriptLoad();
@@ -66,7 +111,7 @@ class GoogleMap extends Component {
     })
 
   return (
-     <div style={{ widgth: 1300, height: 500 }} id={this.props.id} />
+     <div style={{ height: 500 }} id={this.props.id} />
      );
 }
 

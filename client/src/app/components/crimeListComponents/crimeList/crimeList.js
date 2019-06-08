@@ -1,5 +1,7 @@
 import React from 'react';
 import { CrimeListItems } from '../crimeListItems/';
+import './crimeList.css';
+
 export const CrimeList = ({crimeLocations}) => {
 
   let listItems = "";
@@ -9,7 +11,7 @@ export const CrimeList = ({crimeLocations}) => {
     });
   }
   return (
-     <div>
+     <div className="crimeList">
       {listItems}
     </div>
   )

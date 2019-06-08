@@ -1,0 +1,8 @@
+.crimeList {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  overflow: scroll;
+  align-content: space-between;
+  height: 20%;
+}

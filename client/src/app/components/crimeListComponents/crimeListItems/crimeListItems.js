@@ -1,26 +1,38 @@
 
 import React, {useContext} from 'react';
 import {MapContext} from "../../../containers";
-export const CrimeListItems = ({crimeLocation}) => {
+import './crimeListItems.css';
 
+export const CrimeListItems = ({crimeLocation}) => {
 const {toggleCrime} = useContext(MapContext);
 const crimeOutcome = crimeLocation.outcome ? crimeLocation.outcome.category : "outcome unknown";
-const crimeViewToggle = crimeLocation.hidden ? <button onClick={()=>{toggleCrime(crimeLocation.id, false)}}> show crime </button>: <button onClick={()=>{toggleCrime(crimeLocation.id, true)}}> hide crime </button>
-
+const crimeViewToggle = crimeLocation.hidden ? <input type="checkbox" onChange={()=>{toggleCrime(crimeLocation.id, false)}}/> : <input type="checkbox" onChange={()=>{toggleCrime(crimeLocation.id, true)}}/> 
 return (
-  <div>
-    <div>
-      <h1>{crimeLocation.id}</h1>
+  <div className="IndCrime">
+     <div className="crimeId">
+      <h3>Crime Id</h3>
+      <p>{crimeLocation.id}</p>
     </div>
-    <div>
-      <h1>{crimeLocation.category}</h1>
+    <div className="crimeMonth">
+      <h3>Month Reported</h3>
+      <p>{crimeLocation.month}</p>
     </div>
-    <div>
-      <h1>{crimeOutcome}</h1>
+    <div className="crimeCategory">
+      <h3>Category</h3>
+      <p>{crimeLocation.category}</p>
+    </div>
+    <div className="crimeOutcome">
+      <h3>Outcome</h3>
+      <p>{crimeOutcome}</p>
     </div> 
-    <div>
+    <div className="crimeCheckbox">
+      <h3>filter crime to show</h3>
       {crimeViewToggle}
     </div>
+    {/* <div className="crimeButton">
+      <h3>select crime to show</h3>
+      {crimeViewToggle}
+    </div> */}
   </div>
 )  
 
