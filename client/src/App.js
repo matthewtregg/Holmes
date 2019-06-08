@@ -3,7 +3,6 @@ import './App.css';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import { LandingPage} from './app/components/landingPage/landingPage';
 import { MapView } from './app/containers/MapViewContainer/MapViewContainer';
-import { AddView } from './app/containers/AddViewContainer';
 
 function App() {
   return (
