@@ -20,7 +20,7 @@ useEffect(()=> {
   if (mapMode === 'search') {
   PoliceAPI.getCrimes(crimeCentre)
   .then(crimes => {
-    const crimeCoordinates = crimes.map(crime => {return {'id':uuidv4(),'location': crime.location, 'category': crime.category, 'month': crime.month, 'outcome':crime.outcome_status, 'persisted': true, 'hidden':false, 'toAdd':false}});
+    const crimeCoordinates = crimes.map(crime => {return {'id':uuidv4(),'location': crime.location, 'category': crime.category, 'month': crime.month, 'outcome':crime.outcome_status, 'persisted': true, 'hidden':false, 'toAdd':false , 'toFilter':false, 'focused': false}});
     setCrimeLocations(crimeCoordinates);
   });
   }
@@ -33,6 +33,12 @@ const searchByAddress = (address) => {
     if (mapMode === "add") setMapMode('move_center');
   })  
 };
+
+const setAddMode = () => {
+  const newMode = mapMode !== 'add' ? 'add': 'search';
+  if (mapMode === 'add') setCrimeLocations([]);
+  setMapMode(newMode);
+}
 
 const resetAddMode = () => {
   setMapMode('add');
@@ -48,32 +54,45 @@ const addCrimeToMap = (e) => {
   }
 };
 
-const setAddMode = () => {
-  const newMode = mapMode !== 'add' ? 'add': 'search';
-  if (mapMode === 'add') setCrimeLocations([]);
-  setMapMode(newMode);
-}
-
 const setRadius = (event) => { 
   const e = event.target.value
   const newRad = Number(e)
   setCrimeCentre(crimeCentre=>({lat:crimeCentre.lat, lng:crimeCentre.lng, rad:newRad}));
 };
 
-
-
-//toggle whether a crime record is viewed
-const toggleCrime = (id, hidden) => {
+//mark whether a crime record should be filtered
+const markCrimeToFilter = (id, toFilter) => {
   const newCrimeLocations = crimeLocations
     .map(crimeLocation => {
-    if (crimeLocation.id !== id) crimeLocation.hidden = hidden;
+    if (crimeLocation.id === id) crimeLocation.toFilter = toFilter;
     return crimeLocation})
     setCrimeLocations(newCrimeLocations);
 } 
 
-const BottomOfScreen = mapMode === "add"? <CrimeUpdateForm crimeLocations={crimeLocations}/> : <CrimeList crimeLocations={crimeLocations}/>
+// filter crimes that have been marked for filtering
+const filterCrimes = () => {
+  const newCrimeLocations = crimeLocations
+  .map(crimeLocation => {
+  if (crimeLocation.toFilter) crimeLocation.hidden = true;
+  return crimeLocation})
+  setCrimeLocations(newCrimeLocations);
+}
+
+// focus in on crime
+const focusInOnCrime = (id, focused) => {
+  console.log(focused)
+  const newCrimeLocations = crimeLocations
+    .map(crimeLocation => {
+    if (crimeLocation.id !== id) crimeLocation.hidden = focused;
+    if (crimeLocation.id === id) crimeLocation.focused = focused;
+    return crimeLocation})
+    setCrimeLocations(newCrimeLocations);
+}
+
+const BottomOfScreen = mapMode === "add"? <CrimeUpdateForm crimeLocations={crimeLocations} /> : <CrimeList crimeLocations={crimeLocations}  filterCrimes={filterCrimes}/>
 return (
-  <MapContext.Provider value={{toggleCrime}}>
+  
+  <MapContext.Provider value={{focusInOnCrime,markCrimeToFilter}}>
   <CrimeSearchBar setRadius={setRadius} setAddMode={setAddMode}  searchByAddress={searchByAddress} mapMode={mapMode} searchView={true}/>
   <GoogleMap
         id="myMap"

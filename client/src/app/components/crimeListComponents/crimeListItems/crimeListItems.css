@@ -4,6 +4,7 @@ justify-content: center;
 height: 500px;
 font-size: 14px;
 margin-left: 10px;
+top: 20px;
 border: solid;
 background-color: white;
 }
@@ -47,7 +48,14 @@ width:140px;
 align-self: flex-end;
 top:80%;
 font-size: 8px;
+}
 
+.crimeButton {
+  position: sticky; 
+  width:140px;
+  align-self: flex-end;
+  top:90%;
+  font-size: 8px;
 }
     
   

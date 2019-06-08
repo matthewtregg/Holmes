@@ -1,13 +1,18 @@
 
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {MapContext} from "../../../containers";
 import './crimeListItems.css';
 
 export const CrimeListItems = ({crimeLocation}) => {
 
-const {toggleCrime} = useContext(MapContext);
+const {markCrimeToFilter,focusInOnCrime} = useContext(MapContext);
+
+console.log(focusInOnCrime);
 const crimeOutcome = crimeLocation.outcome ? crimeLocation.outcome.category : "outcome unknown";
-const crimeViewToggle = crimeLocation.hidden ? <input type="checkbox" onChange={()=>{toggleCrime(crimeLocation.id, false)}}/> : <input type="checkbox" onChange={()=>{toggleCrime(crimeLocation.id, true)}}/> 
+// change to crime view filter
+const crimeViewCheckbox = crimeLocation.hidden ? <input type="checkbox" onChange={()=>{markCrimeToFilter(crimeLocation.id, false)}}/> : <input type="checkbox" onChange={()=>{markCrimeToFilter(crimeLocation.id, true)}}/> 
+const crimeViewButton = crimeLocation.focused ?  <button onClick={()=>{focusInOnCrime(crimeLocation.id, true)}}><p>'focus on item' </p></button>:<button onClick={()=>{focusInOnCrime(crimeLocation.id, false)}}><p>'go back to see all crimes' </p></button>
+
 return (
   <div className="IndCrime">
      <div className="crimeId">
@@ -28,12 +33,11 @@ return (
     </div> 
     <div className="crimeCheckbox">
       <h3>filter crime to show</h3>
-      {crimeViewToggle}
+      {crimeViewCheckbox}
     </div>
-    {/* <div className="crimeButton">
-      <h3>select crime to show</h3>
-      {crimeViewToggle}
-    </div> */}
+    <div className="crimeButton">
+      {crimeViewButton}
+    </div> 
   </div>
 )  
 

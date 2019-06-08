@@ -1,8 +1,6 @@
 
 import React from 'react';
 export const CrimeFormItem = ({saveCrime, categoryChange, location, locationChange,savedLocation, outcomeChange}) => {
-  console.log(savedLocation)
-  console.log(location)
   const formLocation = location ? location : savedLocation
   return ( <form onSubmit={saveCrime}>
           <select onChange={categoryChange} >
