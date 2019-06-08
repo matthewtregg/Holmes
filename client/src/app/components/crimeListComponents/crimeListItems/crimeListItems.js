@@ -1,5 +1,5 @@
 
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {MapContext} from "../../../containers";
 import './crimeListItems.css';
 
