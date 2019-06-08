@@ -9,21 +9,21 @@ class GoogleMap extends Component {
    
   }
   
-  onScriptLoad() {
+  createMap(){
     this.map = new window.google.maps.Map(
       document.getElementById(this.props.id),
       this.props.options); 
-    
-    window.google.maps.event.addListener(this.map, 'click', (e)=> {
-       const event = e; 
-       this.props.onMapClick(event);
 
-    }); 
+      window.google.maps.event.addListener(this.map, 'click', (e)=> {
+        const event = e; 
+        this.props.onMapClick(event);
+ 
+     }); 
+ 
+  }
 
-    console.log(window)
-    // const clusterer = new window.google.MarkerClusterer(this.map, [], {
-    //   imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-    // });
+  onScriptLoad() { 
+    this.createMap() 
     this.props.crimeLocations.forEach(crimeLocation => {
       const image = this.getMarkerIcon(crimeLocation.category);
       if (!crimeLocation.hidden){ 
@@ -31,14 +31,10 @@ class GoogleMap extends Component {
         position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
         map: this.map,
         icon: {url: image}
-      });
-      // clusterer.addMarker(marker);
+      });  
     }
     
     })
-
-    
-
     
     const polygonCoords = [{ lat:this.props.crimeCentre.lat + this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng - this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat - this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng + this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat + (2*this.props.crimeCentre.rad) ,lng:this.props.crimeCentre.lng + (2*this.props.crimeCentre.rad)}]
     const Polygon = new window.google.maps.Polygon({
@@ -75,9 +71,14 @@ class GoogleMap extends Component {
 
 
   componentDidUpdate() {
-    if (this.props.mapMode!=='add'){
+    if (this.props.mapMode ==='search' ) {
       this.onScriptLoad();
-    } else {
+    } 
+    else if (this.props.mapMode === 'move_center') {
+      this.props.resetAddMode();
+      this.createMap()
+    }
+    else { 
       return false;
     }
 

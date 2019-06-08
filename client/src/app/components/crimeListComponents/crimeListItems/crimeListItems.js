@@ -4,6 +4,7 @@ import {MapContext} from "../../../containers";
 import './crimeListItems.css';
 
 export const CrimeListItems = ({crimeLocation}) => {
+
 const {toggleCrime} = useContext(MapContext);
 const crimeOutcome = crimeLocation.outcome ? crimeLocation.outcome.category : "outcome unknown";
 const crimeViewToggle = crimeLocation.hidden ? <input type="checkbox" onChange={()=>{toggleCrime(crimeLocation.id, false)}}/> : <input type="checkbox" onChange={()=>{toggleCrime(crimeLocation.id, true)}}/> 

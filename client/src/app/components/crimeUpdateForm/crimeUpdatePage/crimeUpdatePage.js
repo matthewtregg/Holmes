@@ -10,6 +10,7 @@ const [outcome, setOutcome]  = useState({})
 
 const crimesToAdd = crimeLocations.map((crimeLocation)=>{
   if (crimeLocation.toAdd) {
+
       const categoryChange = (event) => {
         const e = event.target.value;
         setCategory(category => ({...category,[crimeLocation.id]:e}));
@@ -35,8 +36,9 @@ const crimesToAdd = crimeLocations.map((crimeLocation)=>{
         console.log(newOutcome);
       //saveNewCrime(crimeLocation.id, newCategory, newOutcome, newDescription,);
       };
-
-  return  <CrimeFormItem key={crimeLocation.id} category={category[crimeLocation.id]} categoryChange={categoryChange} location={location[crimeLocation.id]} locationChange={locationChange} outcome={outcome[crimeLocation.id]} outcomeChange={outcomeChange} saveCrime={saveCrime}/>
+    
+      console.log(crimeLocation.address)
+  return  <CrimeFormItem key={crimeLocation.id} category={category[crimeLocation.id]} categoryChange={categoryChange} savedLocation={crimeLocation.address}location={location[crimeLocation.id]} locationChange={locationChange} outcome={outcome[crimeLocation.id]} outcomeChange={outcomeChange} saveCrime={saveCrime}/>
   } else {
     return null
   }
@@ -45,7 +47,16 @@ const crimesToAdd = crimeLocations.map((crimeLocation)=>{
 return (
   <div>
     <button onClick={saveAllCrimes}> save all crimes </button>
-    {crimesToAdd}
+    <div>
+      <h3> Crime category </h3>
+    </div>
+    <div>
+      <h3> Crime outcome  </h3>
+    </div>
+    <div>
+      <h3> Crime location </h3>
+    </div>
+      {crimesToAdd}
   </div>
 );
 }  

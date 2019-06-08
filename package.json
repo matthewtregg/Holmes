@@ -40,5 +40,12 @@
     "hooks": {
       "pre-commit": "gulp lint"
     }
+  },
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-cors": "0.0.16",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.5.13"
   }
 }

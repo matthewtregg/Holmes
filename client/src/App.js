@@ -11,8 +11,8 @@ function App() {
         <Router>
         <div>
         <Route exact path='/' component={LandingPage}/>     
-        <Route exact path='/map' component={MapView} />
-        <Route exact path='/add' component={AddView} /> 
+        <Route path='/map/:add' component={MapView} />
+        
         {/* <Route exact path='/stats' component={} />  */}
         </div>
       </Router>

@@ -9,9 +9,9 @@ export const LandingPage = () => {
     <div>
     <img src={Sherlock} alt='Sherlock Icon'/>
     <ul className="navbar-nav mr-auto">
-            <div><Link to={'/map'} className="nav-link"> Uk Crime Map  </Link></div>
+            <div><Link to={'/map/search'} className="nav-link"> Uk Crime Map  </Link></div>
             <div><Link to={'/stats'} className="nav-link">Visualise Crime Stats</Link></div>
-            <div><Link to={'/add'} className="nav-link">Report a Crime</Link></div> 
+            <div><Link to={'/map/add'} className="nav-link">Report a Crime</Link></div> 
     </ul>
     </div>
   );
