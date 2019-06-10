@@ -32,6 +32,9 @@ const resetSearchMode = () => {
   setMapMode('search');
 }
 
+// reduce crimes by location
+
+
 useEffect(()=> {
   // get Police data based on Polygon coordinates
   if (mapMode === 'search' | mapMode === 'statistics') {
@@ -40,7 +43,7 @@ useEffect(()=> {
       const crimeCoordinates = crimes.map(crime => {return {'id':uuidv4(),'location': crime.location, 'category': crime.category, 'month': crime.month, 'outcome':crime.outcome_status, 'persisted': true, 'hidden':false, 'toAdd':false , 'toFilter':false, 'focused': false}});
       setCrimeLocations(crimeCoordinates);
     });
-    //localAPI.getCrimes(crimeCentre)
+  localAPI.getCrimes(crimeCentre).then((crimes)=> {console.log(crimes)})
 
   }
 },[crimeCentre, mapMode]);
@@ -54,10 +57,6 @@ const searchByAddress = (address) => {
     if (mapMode === "add") setMapMode('move_center');
   })  
 };
-
-// const useCurrentPosition = async() => {
-//   const currentPos = await navigator.geolocation.getCurrentPosition();
-// }
 
 const addCrimeToMap = (e) => {
   if (mapMode === "add") { 
@@ -178,7 +177,7 @@ const mapWidth = mapMode === "statistics" ? 600 : null
 const BottomOfScreen = mapMode === "add"? <CrimeUpdateForm crimeLocations={crimeLocations} saveCrimesToDb={saveCrimesToDb} saveCrimeToDb={saveCrimeToDb} /> : <CrimeList crimeLocations={crimeLocations} showAllCrimes={showAllCrimes} filterCrimes={filterCrimes}/>
 return (
   <MapContext.Provider value={{focusInOnCrime,markCrimeToFilter}}>
-  <CrimeSearchBar filterByCategory={filterByCategory} setRadius={setRadius} setNewMode={setNewMode}  searchByAddress={searchByAddress} mapMode={mapMode} searchView={true}/>
+  <CrimeSearchBar filterByCategory={filterByCategory} setRadius={setRadius} setNewMode={setNewMode}  searchByAddress={searchByAddress} mapMode={mapMode} />
   <GoogleMap
 id="myMap"
 options={{
@@ -194,6 +193,7 @@ resetSearchMode = {resetSearchMode}
 mapHeight={400}
 mapWidth={mapWidth}
 />
+  {centralPane}
   {BottomOfScreen} 
   </MapContext.Provider> 
 

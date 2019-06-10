@@ -30,7 +30,9 @@ const postRequest = (crimes, url) => {
 }
 
 const fetchRequest = (url, crimeCentre) => {
-  return fetch(`http://localhost:4000/${url}/lat1/${crimeCentre.lat + crimeCentre.rad}/lng1/${crimeCentre.lng - crimeCentre.rad}/lat2/${crimeCentre.lat - crimeCentre.rad }/lng2/${crimeCentre.lng + crimeCentre.rad}/lat3/${crimeCentre.lat + (crimeCentre.rad *2)}/lng3/${crimeCentre.lng + (crimeCentre.rad*2)}`)
+  const doubleRad = crimeCentre.rad*2;
+  const coords  = {"coords":[{"lat":crimeCentre.lat + crimeCentre.rad,"lng":crimeCentre.lng - crimeCentre.rad},{"lat":crimeCentre.lat + crimeCentre.rad,"lng":crimeCentre.lng - crimeCentre.rad},{"lat":crimeCentre.lat + doubleRad,"lng":crimeCentre.lng + doubleRad}]}; 
+  return fetch(`http://localhost:4000/${url}/points/${coords}`)
     .then(res => res.status === 200 ? res : Promise.reject(res))
     .then(res => res.json())
     .catch((err) => {

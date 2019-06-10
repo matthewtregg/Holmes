@@ -3,7 +3,7 @@ import React, { useState} from 'react';
 
 
 // map mode
-export const CrimeSearchBar = ({setNewMode, filterByCategory,searchByAddress, setRadius, searchView }) => {
+export const CrimeSearchBar = ({setNewMode, filterByCategory,searchByAddress, setRadius, mapMode }) => {
 const [locationText, setLocationText] = useState('');
 const [modeButtonValue, setModeButtonValue] = useState('');
 
@@ -29,7 +29,7 @@ const handleModeSubmit = (e) => {
 
 
 
-const searchViewFilter = searchView === "search" ? <div>
+const searchViewFilter = mapMode !== "add"? <div>
   <select onChange={filterByCategory}>
    <option value="all_crime">All Crime</option>
    <option value="anti-social-behaviour">Anti-social behaviour </option>
