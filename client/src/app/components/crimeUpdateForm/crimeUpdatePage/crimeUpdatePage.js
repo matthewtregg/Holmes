@@ -2,15 +2,15 @@
 
 import React, {useState} from 'react';
 import {CrimeFormItem} from '../crimeFormItem/crimeFormItem';
-export const CrimeUpdateForm = ({crimeLocations, saveNewCrime, saveAllCrimes}) => {
+export const CrimeUpdateForm = ({crimeLocations,saveCrimeToDb, saveCrimesToDb}) => {
 
 const [category, setCategory] = useState({});
-const [location, setlocation] = useState({})
-const [outcome, setOutcome]  = useState({})  
+const [location, setlocation] = useState({});
+const [outcome, setOutcome]  = useState({});  
 
 const crimesToAdd = crimeLocations.map((crimeLocation)=>{
   if (crimeLocation.toAdd) {
-
+ 
       const categoryChange = (event) => {
         const e = event.target.value;
         setCategory(category => ({...category,[crimeLocation.id]:e}));
@@ -30,14 +30,13 @@ const crimesToAdd = crimeLocations.map((crimeLocation)=>{
         e.preventDefault();
         if(!category[crimeLocation.id]) setCategory(category=>({...category,[crimeLocation.id]:"all_crimes"}))
         if(!outcome[crimeLocation.id]) setOutcome(outcome => ({...outcome,[crimeLocation.id]:"unknown"}))
-        const newCategory = category[crimeLocation.id]? category : "all_crimes";  
-        const newOutcome = outcome[crimeLocation.id]  ? outcome : "unknown";
-        console.log(newCategory);
-        console.log(newOutcome);
-      //saveNewCrime(crimeLocation.id, newCategory, newOutcome, newDescription,);
+        if(!location[crimeLocation.id]) setlocation(location=> ({...location,[crimeLocation.id]:crimeLocation.address}))
+        const newCategory = category[crimeLocation.id]? category[crimeLocation.id] : "all_crimes";  
+        const newOutcome = outcome[crimeLocation.id]  ? outcome[crimeLocation.id] : "unknown";
+        const address = location[crimeLocation.id] ? location[crimeLocation.id]: crimeLocation.address;
+        saveCrimeToDb(crimeLocation, newCategory, newOutcome,address);
       };
     
-      console.log(crimeLocation.address)
   return  <CrimeFormItem key={crimeLocation.id} category={category[crimeLocation.id]} categoryChange={categoryChange} savedLocation={crimeLocation.address}location={location[crimeLocation.id]} locationChange={locationChange} outcome={outcome[crimeLocation.id]} outcomeChange={outcomeChange} saveCrime={saveCrime}/>
   } else {
     return null
@@ -46,7 +45,7 @@ const crimesToAdd = crimeLocations.map((crimeLocation)=>{
 
 return (
   <div>
-    <button onClick={saveAllCrimes}> save all crimes </button>
+    <button onClick={()=>{saveCrimesToDb(category,outcome,location)}}> save all crimes </button>
     <div>
       <h3> Crime category </h3>
     </div>

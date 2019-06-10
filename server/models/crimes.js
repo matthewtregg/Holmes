@@ -1,4 +1,5 @@
 const mongoose = require('./index.js');
+mongoose.set('debug', true);
 const Schema = mongoose.Schema;
 
 const crimeSchema = new Schema({
@@ -21,6 +22,6 @@ const crimeSchema = new Schema({
     
 });
 
-
+crimeSchema.index({location: '2dsphere'});
 const Crimes = mongoose.model('crimes', crimeSchema);
 module.exports = Crimes;

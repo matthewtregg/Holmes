@@ -6,12 +6,10 @@ import './crimeListItems.css';
 export const CrimeListItems = ({crimeLocation}) => {
 
 const {markCrimeToFilter,focusInOnCrime} = useContext(MapContext);
-
-console.log(focusInOnCrime);
 const crimeOutcome = crimeLocation.outcome ? crimeLocation.outcome.category : "outcome unknown";
 // change to crime view filter
 const crimeViewCheckbox = crimeLocation.hidden ? <input type="checkbox" onChange={()=>{markCrimeToFilter(crimeLocation.id, false)}}/> : <input type="checkbox" onChange={()=>{markCrimeToFilter(crimeLocation.id, true)}}/> 
-const crimeViewButton = crimeLocation.focused ?  <button onClick={()=>{focusInOnCrime(crimeLocation.id, true)}}><p>'focus on item' </p></button>:<button onClick={()=>{focusInOnCrime(crimeLocation.id, false)}}><p>'go back to see all crimes' </p></button>
+const crimeViewButton = crimeLocation.focused ? <button onClick={()=>{focusInOnCrime(crimeLocation.id, false)}}><p>'go back to see all crimes' </p></button>:<button onClick={()=>{focusInOnCrime(crimeLocation.id, true)}}><p>'focus on item' </p></button>;
 
 return (
   <div className="IndCrime">

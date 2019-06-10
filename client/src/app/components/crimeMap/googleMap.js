@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Config from '../../config/config'
+import Config from '../../config/config';
+
 class GoogleMap extends Component {
   constructor(props) {
     super(props);
@@ -24,17 +25,8 @@ class GoogleMap extends Component {
 
   onScriptLoad() { 
     this.createMap() 
-    this.props.crimeLocations.forEach(crimeLocation => {
-      const image = this.getMarkerIcon(crimeLocation.category);
-      if (!crimeLocation.hidden){ 
-      new window.google.maps.Marker({
-        position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
-        map: this.map,
-        icon: {url: image}
-      });  
-    }
-    
-    })
+    // reduce to Locations
+    this.displayMarkers();
     
     const polygonCoords = [{ lat:this.props.crimeCentre.lat + this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng - this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat - this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng + this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat + (2*this.props.crimeCentre.rad) ,lng:this.props.crimeCentre.lng + (2*this.props.crimeCentre.rad)}]
     const Polygon = new window.google.maps.Polygon({
@@ -71,13 +63,14 @@ class GoogleMap extends Component {
 
 
   componentDidUpdate() {
-    if (this.props.mapMode ==='search' ) {
+    if (this.props.mapMode ==='search') {
       this.onScriptLoad();
     } 
-    else if (this.props.mapMode === 'move_center') {
+    else if (this.props.mapMode === 'move_center' ) {
       this.props.resetAddMode();
       this.createMap()
     }
+
     else { 
       return false;
     }
@@ -99,19 +92,39 @@ class GoogleMap extends Component {
     }
   }
 
-  render() {
+  displayMarkers() {
     this.props.crimeLocations.forEach(crimeLocation => {
-      if (!crimeLocation.hidden){ 
-      new window.google.maps.Marker({
+      if (!crimeLocation.hidden) { 
+      const image = this.getMarkerIcon(crimeLocation.category);
+      const marker = new window.google.maps.Marker({
         position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
-        map: this.map
+        map: this.map,
+        url: {image}
       });
       
-    }
+      const contentText = `<div id="content"><p>crime id: ${crimeLocation.id}</p>
+      <p>Month Reported: ${crimeLocation.month}</p>
+      <p>Category: ${crimeLocation.category}</p> 
+      <p>Category: ${crimeLocation.outcome.category}</p> 
+      </div>`
+
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: contentText
+      });
+      
+      marker.addListener('click', function() {
+        infoWindow.open(this.map, marker);
+      }); 
+      }
     })
+  } 
+
+
+  render() {
+    
 
   return (
-     <div style={{ height: 500 }} id={this.props.id} />
+     <div style={{ height:this.props.mapHeight, width:this.props.mapWidth}} id={this.props.id} />
      );
 }
 
