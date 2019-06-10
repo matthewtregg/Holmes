@@ -6,3 +6,17 @@
   align-content: space-between;
   height: 20%;
 }
+
+.crimeListButton{
+  position: relative;
+  top: -400px;
+}
+
+.barCrimeList {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  overflow: scroll;
+  align-content: space-between;
+  height: 20%;
+}

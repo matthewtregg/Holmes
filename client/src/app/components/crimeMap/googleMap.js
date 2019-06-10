@@ -99,7 +99,7 @@ class GoogleMap extends Component {
       const image = this.getMarkerIcon(crimeLocation.category);
 
       const marker = new window.google.maps.Marker({
-        position: { lat: Number(crimeLocation.location.latitude) , lng: Number(crimeLocation.location.longitude) },
+        position: { lat: crimeLocation.location.latitude , lng: crimeLocation.location.longitude },
         map: this.map,
         url : {image}
       });

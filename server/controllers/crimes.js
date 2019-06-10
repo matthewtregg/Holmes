@@ -14,16 +14,15 @@ const getAllCrimes = async (ctx) => {
 const getCrimes = async (ctx) => {
   try {
 
-  
-    // console.log(lng1, lat1, lng2, lat2, lng3, lat3);
+    const coords = JSON.parse(ctx.params.coords);
     const res = await Crimes.find({
       location: {
         $geoWithin: {
           $polygon: [
-            [41.00,2.00],
-            [45.00,3.00],
-            [41.00,4.00],
-            [41.00,2.00]
+            [coords[0].lat,coords[0].lng],
+            [coords[1].lat,coords[1].lng],
+            [coords[2].lat,coords[2].lng],
+            [coords[0].lat,coords[0].lng]
           ]}
       }
     });
@@ -38,7 +37,6 @@ const getCrimes = async (ctx) => {
 
 const saveIndCrime = async (ctx) => {
   try {
-    
     const res = await new Crimes(ctx.request.body).save();
     ctx.body = res;
     ctx.status = 200;

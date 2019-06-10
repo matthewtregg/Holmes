@@ -69,6 +69,7 @@ return (
       <input type='text' value={locationText} onChange={handleLocationChange} />
       <input type='submit' value='find crime location' />
     </form> 
+    {/* <button onClick="useCurrentLocation"> Use Current Location</button> */}
      {searchViewFilter}
   </div>
 )

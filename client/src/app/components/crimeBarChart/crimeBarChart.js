@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bar } from '@vx/shape';
 import { Group } from '@vx/group';
+import { Text } from '@vx/text';
 import { scaleBand, scaleLinear } from '@vx/scale';
 import './crimeBarChart.css';
 
@@ -88,14 +89,38 @@ const getCountsByCategory = crimeLocations.reduce((categoriesSum, crimeLocation 
   "Anti-social behaviour": 0
 });
 
+ const colors  = {
+  "unknown":  "black" ,
+  "other_crime": "white",
+  "violence and sexual offences": "blue",
+  "vehicle-crime": "red",
+  "violent-crime": "pink",
+  "general_theft": "orange",
+  "shoplifting": "green",
+  "Robbery": "rgb(66, 163, 53)",
+  "public-order": "rgb(66, 163, 53)",
+  "possession of weapons": "yellow",
+  "theft": "red",
+  "other-crime": "turquoise",
+  "Drugs": "indigo",
+  "Criminal damage and arson": "pink",
+  "Burglary": "blue",
+  "Bicycle theft": "orange",
+  "Anti-social behaviour":"black"
+
+}
+
+
+
 // colours 
 // labels
 const data = Object.keys(getCountsByCategory)
   .map(category => ({"category":category,"frequency":getCountsByCategory[category]}))
-
+  .map((category) => ({...category, "color": colors[category.category]}))
 // d.crime
 const x = d => d.category;
-const y = d => +d.frequency * 100
+const y = d => +d.frequency * 100;
+const color = d => d.color;
   // bounds
   const xMax = width;
   const yMax = height - 120;
@@ -112,18 +137,21 @@ const y = d => +d.frequency * 100
   });
 
 
-// bar color
+// bar color ( add just with markers)
+// set onclick event 
 
 const barChart = crimeLocations.length > 0 ? 
+<div>
 <svg width={width} height={height}>
   <rect width={width} height={height} fill={"url(#teal)"} rx={14} />
-  <Group top={40}>
+  <Group top={40}>  
     {data.map((d, i) => {
       const category = x(d);
       const barWidth = xScale.bandwidth();
       const barHeight = yMax - yScale(y(d));
       const barX = xScale(category);
       const barY = yMax - barHeight;
+      const barColors = color(d);
       return (
         <Bar
           key={`bar-${category}`}
@@ -131,7 +159,7 @@ const barChart = crimeLocations.length > 0 ?
           y={barY}
           width={barWidth}
           height={barHeight}
-          fill="rgba(23, 233, 217, .5)"
+          fill={barColors}
           onClick={event => {
             alert(`clicked: ${JSON.stringify(Object.values(d))}`);
           }}
@@ -140,8 +168,22 @@ const barChart = crimeLocations.length > 0 ?
     })}
   </Group>
 </svg>
-:null
+<svg>
+  <Group top={40}>
+  {data.map((d) =>{
+    const category = x(d);
+    const barHeight = yMax - yScale(y(d));
+    const barX = xScale(category);
+    console.log(barX)
+    const barY = yMax - barHeight;
+    console.log(barY);
+    return (<Text key={`key-${d.category}`}verticalAnchor="start" x={barX} y={barY}>{d.category}</Text>);
 
+  })}
+  </Group>
+</svg>
+</div>
+:null
 
 
   
