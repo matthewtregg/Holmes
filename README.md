@@ -19,7 +19,7 @@ SCREEN 2 ADDING CRIMES
 
 SCREEN 3 SEARCHING FOR CRIMES
 
-![alt text]()
+![alt text](https://github.com/matthewtregg/Holmes/blob/master/Screenshot%202019-07-06%20at%2015.23.56.png)
  
 SCREEN 4 CRIME STATS AT A GIVEN LOCATION
 
