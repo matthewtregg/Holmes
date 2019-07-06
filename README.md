@@ -1,7 +1,7 @@
 # Sherlock Holmes 
 
 ## App description
-This is an app I created to add and explore UK crimes. It uses the UK police open data api and consists of four main screens in the front-end. This is served by a Koa backend that allows a user to add crimes at a location - on top of crimes already reported in the UK police api. 
+This is a full stack React app I created to add and explore UK crimes. It uses the UK police open data api and consists of four main screens in the front-end. This is served by a Koa backend that allows a user to add crimes at a location - on top of crimes already reported in the UK police api. 
 
 SCREEN 1 LANDING PAGE 
 
@@ -15,12 +15,15 @@ c) Obtain crimes stats at a given location
 
 SCREEN 2 ADDING CRIMES
 
-
+![alt text]()
 
 SCREEN 3 SEARCHING FOR CRIMES
 
+![alt text]()
+
 SCREEN 4 CRIME STATS AT A GIVEN LOCATION
 
+![alt text]()
 
 ## Technologies used 
 -Mongo DB (geo-json) using Mongoose
@@ -47,6 +50,9 @@ run npm install
 run node index.js
 
 ## Configuration
-the following dependencies are needed in a dot.env 
+the following dependencies are needed in your dot.env: 
+
+Within the client folder: you need to obtain your own 
+Within the server folder:
 
 
