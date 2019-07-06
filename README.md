@@ -5,7 +5,7 @@ This is a full stack React app I created to add and explore UK crimes. It uses t
 
 SCREEN 1 LANDING PAGE 
 
-![alt text]()
+![alt text](https://github.com/matthewtregg/Holmes/blob/master/Screenshot%202019-07-06%20at%2008.27.17.png)
 
 On the landing page a user can choose to navigate to a screen where one can either: 
 
