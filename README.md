@@ -1,4 +1,4 @@
-# Sherlock Holmes 
+# Holmes 
 
 ## App description
 This is a full stack React app I created to add and explore UK crimes. It uses the UK police open data api and consists of four main screens in the front-end. This is served by a Koa backend that allows a user to add crimes at a location - on top of crimes already reported in the UK police api. 
