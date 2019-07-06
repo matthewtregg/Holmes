@@ -15,12 +15,12 @@ c) Obtain crimes stats at a given location
 
 SCREEN 2 ADDING CRIMES
 
-![alt text]()
+![alt text](https://github.com/matthewtregg/Holmes/blob/master/Screenshot%202019-07-06%20at%2015.21.07.png)
 
 SCREEN 3 SEARCHING FOR CRIMES
 
 ![alt text]()
-
+ 
 SCREEN 4 CRIME STATS AT A GIVEN LOCATION
 
 ![alt text]()
