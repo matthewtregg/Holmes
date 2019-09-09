@@ -10,35 +10,20 @@ class GoogleMap extends Component {
    
   }
   
-  createMap(){
+  createMap() {
     this.map = new window.google.maps.Map(
       document.getElementById(this.props.id),
       this.props.options); 
 
       window.google.maps.event.addListener(this.map, 'click', (e)=> {
         const event = e; 
-        this.props.onMapClick(event);
- 
-     }); 
- 
+        this.props.onMapClick(event);});  
   }
 
   onScriptLoad() { 
     this.createMap() 
     // reduce to Locations
-    this.displayMarkers();
-    
-    // const polygonCoords = [{ lat:this.props.crimeCentre.lat + this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng - this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat - this.props.crimeCentre.rad ,lng:this.props.crimeCentre.lng + this.props.crimeCentre.rad},{lat:this.props.crimeCentre.lat + (2*this.props.crimeCentre.rad) ,lng:this.props.crimeCentre.lng + (2*this.props.crimeCentre.rad)}]
-    // const Polygon = new window.google.maps.Polygon({
-    //   paths: polygonCoords,
-    //   strokeColor: '#FF0000',
-    //   strokeOpacity: 0.8,
-    //   strokeWeight: 2,
-    //   fillColor: '#FF0000',
-    //   fillOpacity: 0.35
-    // });
-    // Polygon.setMap(this.map);
-     
+    this.displayMarkers(); 
   }
   
   getMarkerIcon(category) {
@@ -56,8 +41,7 @@ class GoogleMap extends Component {
       case "drugs":
       return "http://maps.google.com/mapfiles/ms/icons/cycling.png";
       default:
-      return "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
-      
+      return "http://maps.google.com/mapfiles/ms/icons/red-dot.png"; 
     }
   }
 
