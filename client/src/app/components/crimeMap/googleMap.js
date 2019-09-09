@@ -4,10 +4,8 @@ import Config from '../../config/config';
 class GoogleMap extends Component {
   constructor(props) {
     super(props);
-    this.onScriptLoad = this.onScriptLoad.bind(this)
+    this.onScriptLoad = this.onScriptLoad.bind(this);
     this.map = {};
-
-   
   }
   
   createMap() {
@@ -21,8 +19,7 @@ class GoogleMap extends Component {
   }
 
   onScriptLoad() { 
-    this.createMap() 
-    // reduce to Locations
+    this.createMap(); 
     this.displayMarkers(); 
   }
   
