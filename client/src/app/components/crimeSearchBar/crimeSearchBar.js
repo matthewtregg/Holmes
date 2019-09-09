@@ -1,7 +1,5 @@
 import React, { useState} from 'react';
 
-
-
 // map mode
 export const CrimeSearchBar = ({setNewMode, filterByCategory,searchByAddress, setRadius, mapMode }) => {
 const [locationText, setLocationText] = useState('');
@@ -26,8 +24,6 @@ const handleModeSubmit = (e) => {
   e.preventDefault();
   setNewMode(modeButtonValue);
 }
-
-
 
 const searchViewFilter = mapMode !== "add"? <div>
   <select onChange={filterByCategory}>
