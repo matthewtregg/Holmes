@@ -1,18 +1,18 @@
 {
-  "name": "codeworks-netflix-react-exercise",
+  "name": "Holmes",
   "version": "1.0.2",
-  "description": "A Codeworks exercise to train students",
+  "description": "A an alternate interface to the UK crime data base",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codeworksbcn/netflix-react-exercise.git"
+    "url": "git+https://github.com/matthewtregg/Holmes"
   },
-  "author": "Codeworks",
+  "author": "Matthew Tregear",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/codeworksbcn/netflix-react-exercise/issues"
+    "url": "https://github.com/matthewtregg/Holmes/issues"
   },
-  "homepage": "https://github.com/codeworksbcn/netflix-react-exercise#readme",
+  "homepage": "https://github.com/matthewtregg/Holmes#readme",
   "devDependencies": {
     "babel-eslint": "10.0.1",
     "cz-changelog": "1.0.1",
